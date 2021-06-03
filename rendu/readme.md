@@ -12,6 +12,6 @@ Our code is contained in the `script.py` python script. To use it you need to ru
 - `--input_file [filename.txt]` the file containing the human-readable string to transmit
 - `--python [command]` name of the command to call python from command line on your machine. Is python3 by default.
 
-You need to be connected to the EPFL network for this to work (can be throught the VPN).
+You need to be connected to the EPFL network for this to work (can be through the VPN).
 
 `client.py` and `channel_helper.py` is code provided to use which we use to contact the channel server.
