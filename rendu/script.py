@@ -244,5 +244,5 @@ if __name__ == '__main__':
     args = argument_parser()
 
     input_string = readyForTransmission(args.input_file, chan_input_filename)
-    transmit("channel_input.txt", chan_output_filename, args.python)
-    decodeResult("channel_output.txt", result_filename, input_string)
+    transmit(chan_input_filename, chan_output_filename, args.python)
+    decodeResult(chan_output_filename, result_filename, input_string)
