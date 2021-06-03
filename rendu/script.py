@@ -199,6 +199,7 @@ def transmit(input_filename, output_filename, python):
     chan_input = np.loadtxt(input_filename)
 
     print("Transmitting...")
+    print("... n is " + str(len(chan_input)) + " ...")
 
     command = subprocess.run([python, 'client.py', '--input_file='+input_filename, '--output_file='+output_filename, '--srv_hostname' ,'iscsrv72.epfl.ch', '--srv_port', '80'], capture_output=True)
     sys.stdout.buffer.write(command.stdout)
