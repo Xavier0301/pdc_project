@@ -122,15 +122,18 @@ def encode(chan_input, codebook, k):
     # first encode the string
     chan_input = stringToBits(chan_input) 
 
-    # add padding and a block containing the padding size
+    # add padding if necessary
     n = len(chan_input)
     n_blocks = n // k 
-    padding_size = k - n % k
-    if (padding_size < 10):
+    padding_size = (k - n % k) % k
+    if (padding_size != 0):
         padding = np.zeros(padding_size).astype('int64')
         chan_input = np.append(chan_input, padding)
-        chan_input = np.append(chan_input, decimalToBinary(padding_size, k))
-        n_blocks += 2
+        n_blocks += 1
+
+    # add block containing the padding size
+    chan_input = np.append(chan_input, decimalToBinary(padding_size, k))
+    n_blocks += 1
 
     # map each block of bits to a code from the codebook
     res = np.array([], dtype='int64')
@@ -165,10 +168,9 @@ def decode(chan_output, codebook, k):
     chan_output = np.array([find(codebook, codeword) for codeword in chan_output])
     chan_output = np.array([decimalToBinary(codeword, k) for codeword in chan_output]).flatten()
 
-    # remove padding
+    # remove padding size information block and padding if there was some
     padding_size = binaryToDecimal(chan_output[-k:])
-    if (padding_size < k):
-        chan_output = chan_output[:-(padding_size + k)]
+    chan_output = chan_output[:-(padding_size + k)]
 
     # transform back into string
     chan_output = binaryToString(chan_output)
